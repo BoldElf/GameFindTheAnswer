@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using VContainer;
 
-public class ReycastCheck : MonoBehaviour
+public class RaycastCheck : MonoBehaviour
 {
     /*
     public void OnPointerDown(PointerEventData eventData)
@@ -16,6 +16,7 @@ public class ReycastCheck : MonoBehaviour
     //RaycastHit2D hit = new RaycastHit2D();
 
     [Inject] private SetFindSystem setFindSystem;
+
 
     private ButtonController button;
 

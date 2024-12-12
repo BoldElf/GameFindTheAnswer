@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,9 @@ public class Rendering : MonoBehaviour
     private GameObject currentButton;
     private ButtonController currentButtonController;
     private CardData cardData;
+
+    public delegate void CreateObject(GameObject gameObject);
+    public event CreateObject ObjectIsHere;
 
     /*
     public void renderGrid(int countElements)
@@ -53,9 +57,14 @@ public class Rendering : MonoBehaviour
 
                 if (cardData.getFlip() == true)
                 {
-                    currentButtonController.transform.Rotate(0, 0, -90);
+                    //currentButtonController.transform.Rotate(0, 0, -90);
+                    // currentButtonController.transform.rotation = Quaternion.Euler(new Vector3(0, 0, -90));
+
+                    currentButtonController.getSprite().transform.Rotate(0, 0, -90);
                 }
             }
+
+            ObjectIsHere?.Invoke(currentButton);
         }
     }
 

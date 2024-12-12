@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class SetFindSystem : MonoBehaviour
@@ -16,6 +17,12 @@ public class SetFindSystem : MonoBehaviour
 
     public delegate void FindSystem();
     public event FindSystem Notify;
+
+    public delegate void WrongSystem(GameObject button);
+    public event WrongSystem WrongChoice;
+
+    public delegate void Win (ButtonController button);
+    public event Win spawnParticle;
 
     private List<int> endCard = new List<int>();
     private CardData EndButton;
@@ -111,7 +118,7 @@ public class SetFindSystem : MonoBehaviour
     }
 
 
-    public void CheckEndNumber(ButtonController button)
+    public  void CheckEndNumber(ButtonController button)
     {
         /*
         if(endNumber == button.GetIndefire())
@@ -126,7 +133,13 @@ public class SetFindSystem : MonoBehaviour
 
         if(EndButton.getIdentifier() == button.GetIndefire())
         {
-            Notify?.Invoke();
+            spawnParticle?.Invoke(button);
+
+            //Notify?.Invoke();
+        }
+        else
+        {
+            WrongChoice?.Invoke(button.gameObject);
         }
 
 
@@ -187,5 +200,10 @@ public class SetFindSystem : MonoBehaviour
         {
             return "erorr";
         }
+    }
+
+    public void NextLevel()
+    {
+        Notify?.Invoke();
     }
 }

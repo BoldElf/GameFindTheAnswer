@@ -9,6 +9,8 @@ public class GameLifeTimeScope : LifetimeScope
     [SerializeField] private Rendering rendering;
     [SerializeField] private SetFindSystem setFindSystem;
     [SerializeField] private UIText uIText;
+    [SerializeField] private RaycastCheck reycastCheck;
+    [SerializeField] private LevelManager levelManager;
 
     protected override void Configure(IContainerBuilder builder)
     {
@@ -17,6 +19,8 @@ public class GameLifeTimeScope : LifetimeScope
             builder.RegisterComponent(rendering);
             builder.RegisterComponent(setFindSystem);
             builder.RegisterComponent(uIText);
+            builder.RegisterComponent(reycastCheck);
+            builder.RegisterComponent(levelManager);
         }
         else
         {

@@ -22,4 +22,9 @@ public class ButtonController : MonoBehaviour
     {
         return indefire;
     }
+
+    public Image getSprite()
+    {
+        return mainSprite;
+    }
 }

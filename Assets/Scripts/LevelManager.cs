@@ -12,6 +12,11 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private List<Level> levels = new List<Level>();
     [SerializeField] private int currentLevel = 0; // DBG
 
+    public delegate void LevelManagerDelegate();
+    public event LevelManagerDelegate LevelStartEvent;
+
+    public event LevelManagerDelegate LevelEndEvent;
+
     private void Start()
     {
         StartLevel();
@@ -29,6 +34,7 @@ public class LevelManager : MonoBehaviour
         }
         else
         {
+            LevelEndEvent?.Invoke();
             uIText.setRestart();
         }
 
@@ -49,6 +55,7 @@ public class LevelManager : MonoBehaviour
         {
             if (rendering != null)
             {
+                LevelStartEvent?.Invoke();
                 rendering.renderGrid(levels[currentLevel].getCountElements(), setFindSystem);
                 uIText.setText("Find: " + " " + setFindSystem.getEndNumberButton());
             }
