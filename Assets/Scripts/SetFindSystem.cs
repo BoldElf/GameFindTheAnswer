@@ -6,9 +6,6 @@ public class SetFindSystem : MonoBehaviour
 {
     [SerializeField] private List<CardBudle> cardBundl = new List<CardBudle>();
 
-    [SerializeField] private int maxOptions =  1;
-    [SerializeField] private int maxElements = 8;
-
     [SerializeField] private int currentOption;
     [SerializeField] private int currentElement;
 
@@ -17,11 +14,23 @@ public class SetFindSystem : MonoBehaviour
     private int endNumber;
     private int EnterCount;
 
+    public delegate void FindSystem();
+    public event FindSystem Notify;
+
+    private List<int> endCard = new List<int>();
+    private CardData EndButton;
+
+    private bool OneEndButton;
+
     private void Awake()
     {
         currentOption = Random.Range(0, cardBundl.Count);
+        /*
         currentElement = Random.Range(0, cardBundl[currentOption].getCountCard());
-        endNumber = currentElement;
+        endNumber = currentElement + 1;
+        */
+        CreateEndNumber();
+        setEndNumberButton();
     }
 
     public int GetCurrentOption()
@@ -36,17 +45,15 @@ public class SetFindSystem : MonoBehaviour
 
     public CardData reRollElement(int countElements)
     {
-        Debug.Log(endNumber);
         EnterCount++;
-
 
         currentElement = Random.Range(0, cardBundl[currentOption].getCountCard());
 
         for (int i = 0; i < currentNumber.Count; i++)
         {
-            if (endNumber != currentNumber[i])
+            if ( (endNumber) != currentNumber[i])
             {
-                currentElement = Random.Range(0, 2);
+                currentElement = Random.Range(0, 3);
 
                 if(currentElement == 0)
                 {
@@ -61,7 +68,7 @@ public class SetFindSystem : MonoBehaviour
         {
             for(int i = 0; i < currentNumber.Count;i++)
             {
-                if(endNumber != currentNumber[i])
+                if( (endNumber) != currentNumber[i])
                 {
                     check++;
                 }   
@@ -82,10 +89,103 @@ public class SetFindSystem : MonoBehaviour
             }
         }
 
+        if(OneEndButton == true)
+        {
+            while(currentElement == endNumber)
+            {
+                currentElement = Random.Range(0, cardBundl[currentOption].getCountCard());
+            }
+            
+        }
+
+        if(currentElement == endNumber)
+        {
+            OneEndButton = true;
+        }
+        
+
         currentNumber.Add(currentElement);
 
         //return cardBundl[currentOption].getCardData(currentElement).getImage();
         return cardBundl[currentOption].getCardData(currentElement);
     }
 
+
+    public void CheckEndNumber(ButtonController button)
+    {
+        /*
+        if(endNumber == button.GetIndefire())
+        {
+            Notify?.Invoke();
+        }
+        else
+        {
+            Debug.Log("No");
+        }
+        */
+
+        if(EndButton.getIdentifier() == button.GetIndefire())
+        {
+            Notify?.Invoke();
+        }
+
+
+    }
+
+    public void GlobalClearData()
+    {
+        currentOption = Random.Range(0, cardBundl.Count);
+        ClearDataNextLevel();
+        endCard.Clear();
+    }
+
+    public void ClearDataNextLevel()
+    {
+        endCard.Add(endNumber);
+        OneEndButton = false;
+        /*
+        currentElement = Random.Range(0, cardBundl[currentOption].getCountCard());
+        endNumber = currentElement + 1;
+        */
+        CreateEndNumber();
+
+        for (int i = 0; i < endCard.Count;i++)
+        {
+            if(endCard[i] == endNumber)
+            {
+                i = 0;
+                /*
+                currentElement = Random.Range(0, cardBundl[currentOption].getCountCard());
+                endNumber = currentElement + 1;
+                */
+                CreateEndNumber();
+            }
+        }
+        setEndNumberButton();
+        EnterCount = 0;
+        currentNumber.Clear();
+    }
+    private void CreateEndNumber()
+    {
+        currentElement = Random.Range(0, cardBundl[currentOption].getCountCard());
+        endNumber = currentElement;
+    }
+
+    private void setEndNumberButton()
+    {
+        EndButton = cardBundl[currentOption].getCardData(endNumber);
+        Debug.Log(EndButton.getIdentifier());
+    }
+
+    public string getEndNumberButton()
+    {
+        if(EndButton != null)
+        {
+            return EndButton.getIdentifier();
+        }
+        else
+        {
+            return "erorr";
+        }
+    }
 }

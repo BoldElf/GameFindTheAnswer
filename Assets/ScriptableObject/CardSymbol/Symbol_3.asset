@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 490747771a140554c8f275690b823dc1, type: 3}
   m_Name: Symbol_3
   m_EditorClassIdentifier: 
-  identifier: 3
+  identifier: C
   image: {fileID: 3234300448368640894, guid: f94174679cb33b54b8b5eb9c058d6596, type: 3}
   flip: 0

@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   identifier: 9
   image: {fileID: -1155199509967091035, guid: a097a4d88c5af514b84012c1921f8f1d, type: 3}
+  flip: 0

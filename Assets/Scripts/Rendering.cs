@@ -7,11 +7,14 @@ public class Rendering : MonoBehaviour
 {
     [SerializeField] private GameObject prefabButton;
     [SerializeField] private Transform parentTransform;
-    [Inject] SetFindSystem setFindSystem;
+
+    //[Inject] SetFindSystem setFindSystem;
 
     private GameObject currentButton;
     private ButtonController currentButtonController;
     private CardData cardData;
+
+    /*
     public void renderGrid(int countElements)
     {
         for(int i = 0; i < countElements;i++)
@@ -23,15 +26,46 @@ public class Rendering : MonoBehaviour
                 cardData = setFindSystem.reRollElement(countElements);
 
                 //currentButtonController.setSprite(setFindSystem.reRollElement().getImage());
-                currentButtonController.setSprite(cardData.getImage());
+                currentButtonController.SetSprite(cardData.getImage());
+                currentButtonController.SetIndefire(cardData.getIdentifier());
 
-                if(cardData.getFlip() == true)
+                if (cardData.getFlip() == true)
                 {
                     currentButtonController.transform.Rotate(0, 0, -90);
                 }
             }
-                
-            
         }
+    */
+
+    public void renderGrid(int countElements, SetFindSystem setFindSystem)
+    {
+        for (int i = 0; i < countElements; i++)
+        {
+            currentButton = Instantiate(prefabButton, parentTransform);
+
+            if (currentButton.TryGetComponent<ButtonController>(out currentButtonController))
+            {
+                cardData = setFindSystem.reRollElement(countElements);
+
+                //currentButtonController.setSprite(setFindSystem.reRollElement().getImage());
+                currentButtonController.SetSprite(cardData.getImage());
+                currentButtonController.SetIndefire(cardData.getIdentifier());
+
+                if (cardData.getFlip() == true)
+                {
+                    currentButtonController.transform.Rotate(0, 0, -90);
+                }
+            }
+        }
+    }
+
+    public void ClearRender(SetFindSystem setFindSystem)
+    {
+        while (parentTransform.childCount > 0)
+        {
+            DestroyImmediate(parentTransform.GetChild(0).gameObject);
+        }
+
+        setFindSystem.ClearDataNextLevel();
     }
 }

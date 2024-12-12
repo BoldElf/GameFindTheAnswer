@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using VContainer;
 
 public class ReycastCheck : MonoBehaviour
 {
@@ -12,8 +13,11 @@ public class ReycastCheck : MonoBehaviour
     }
     */
 
-    RaycastHit2D hit = new RaycastHit2D();
+    //RaycastHit2D hit = new RaycastHit2D();
 
+    [Inject] private SetFindSystem setFindSystem;
+
+    private ButtonController button;
 
     private void Update()
     {
@@ -23,7 +27,12 @@ public class ReycastCheck : MonoBehaviour
             //Debug.Log("Target Position: " + hit.collider.gameObject.transform.position);
             if(Input.GetKeyDown(KeyCode.Mouse0))
             {
-                Destroy(hit.collider.gameObject);
+                //Destroy(hit.collider.gameObject);
+
+                if(hit.collider.TryGetComponent<ButtonController>(out button))
+                {
+                    setFindSystem.CheckEndNumber(button);
+                }
             }
         }
     }

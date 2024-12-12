@@ -5,10 +5,21 @@ using UnityEngine.UI;
 
 public class ButtonController : MonoBehaviour
 {
-    [SerializeField] Image mainSprite;
+    [SerializeField] private Image mainSprite;
+    private string indefire;
     
-    public void setSprite(Sprite sprite)
+    public void SetSprite(Sprite sprite)
     {
         mainSprite.sprite = sprite;
+    }
+
+    public void SetIndefire(string number)
+    {
+        indefire = number;
+    }
+
+    public string GetIndefire()
+    {
+        return indefire;
     }
 }
