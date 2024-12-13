@@ -2,18 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New CardBudle", menuName = "CardBudle", order = 53)]
-public class CardBudle : ScriptableObject
+namespace Game
 {
-    [SerializeField] private List<CardData> cardData = new List<CardData>();
-
-    public CardData getCardData(int number)
+    [CreateAssetMenu(fileName = "New CardBudle", menuName = "CardBudle", order = 53)]
+    public class CardBudle : ScriptableObject
     {
-        return cardData[number];
-    }
+        [SerializeField] private List<CardData> cardData = new List<CardData>();
 
-    public int getCountCard()
-    {
-        return cardData.Count;
+        public CardData getCardData(int number)
+        {
+            return cardData[number];
+        }
+
+        public int getCountCard()
+        {
+            return cardData.Count;
+        }
     }
 }
+

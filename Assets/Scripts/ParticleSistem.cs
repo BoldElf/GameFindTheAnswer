@@ -4,54 +4,51 @@ using System.Collections.Generic;
 using UnityEngine;
 using VContainer;
 
-public class ParticleSistem : MonoBehaviour
+namespace Game
 {
-    [SerializeField] private float activeTime = 1;
-    [SerializeField] private ParticleSystem _particleSystem;
-    [Inject] private SetFindSystem setFindSystem;
-
-    private ParticleSystem particle;
-
-    private void Start()
+    public class ParticleSistem : MonoBehaviour
     {
-        setFindSystem.spawnParticle += StartParticle;
-    }
-    
-    private void StartParticle(ButtonController button)
-    {
-        particle = Instantiate(_particleSystem,button.gameObject.transform);
-        DOTween.Sequence().Append(DOTween.To(PlayParticle, 0, 1f, _particleSystem.main.duration)).SetLink(button.gameObject);
-        isPlay = true;
-    }
+        [SerializeField] private float activeTime = 1;
+        [SerializeField] private ParticleSystem _particleSystem;
+        [Inject] private SetFindSystem setFindSystem;
 
-    private bool isPlay = false;
-    private float timer;
+        private ParticleSystem particle;
 
-    private void Update()
-    {
-        if (isPlay == true)
+        private void Start()
         {
-            timer += Time.deltaTime;
+            setFindSystem.spawnParticle += StartParticle;
+        }
 
-            if(timer > activeTime)
+        private bool isPlay = false;
+        private float timer;
+
+        private void Update()
+        {
+            if (isPlay == true)
             {
-                setFindSystem.NextLevel();
-                isPlay = false;
-                timer = 0;
+                timer += Time.deltaTime;
+
+                if (timer > activeTime)
+                {
+                    setFindSystem.NextLevel();
+                    isPlay = false;
+                    timer = 0;
+                }
             }
+
         }
 
-    }
-
-    private void PlayParticle(float f)
-    {
-        /*
-        if (!particle.isPlaying && isPlay == false)
+        private void StartParticle(ButtonController button)
         {
-            particle.Play();
+            particle = Instantiate(_particleSystem,button.gameObject.transform);
+            DOTween.Sequence().Append(DOTween.To(PlayParticle, 0, 1f, _particleSystem.main.duration)).SetLink(button.gameObject);
             isPlay = true;
-            Debug.Log(isPlay);
         }
-        */
+
+        private void PlayParticle(float f)
+        {
+        
+        }
     }
 }
+

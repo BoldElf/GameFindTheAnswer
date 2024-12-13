@@ -2,13 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Level", menuName = "level", order = 51)]
-public class Level : ScriptableObject
+namespace Game
 {
-    [SerializeField]private int elements;
-
-    public int getCountElements()
+    [CreateAssetMenu(fileName = "New Level", menuName = "level", order = 51)]
+    public class Level : ScriptableObject
     {
-        return elements;
+        [SerializeField]private int elements;
+
+        public int getCountElements()
+        {
+            return elements;
+        }
     }
 }
+

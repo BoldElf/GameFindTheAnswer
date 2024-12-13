@@ -4,24 +4,25 @@ using UnityEngine;
 using VContainer;
 using DG.Tweening;
 
-public class WrongChoice : MonoBehaviour
+namespace Game
 {
-    [Inject] SetFindSystem setFindSystem;
-    MovePictureScripts movePictureScripts;
-
-
-    void Start()
+    public class WrongChoice : MonoBehaviour
     {
-        setFindSystem.WrongChoice += SetFindSystem_WrongChoice;
-    }
+        [Inject] SetFindSystem setFindSystem;
+        MovePictureScripts movePictureScripts;
 
-    private void SetFindSystem_WrongChoice(GameObject button)
-    {
-        Debug.Log("Try");
-        if (button.TryGetComponent<MovePictureScripts>(out movePictureScripts))
+        void Start()
         {
-            movePictureScripts.ButtonEffect();
+            setFindSystem.WrongChoice += SetFindSystem_WrongChoice;
         }
-        //button.transform.DOMove(endValue: new Vector3(x: button.transform.position.x + 0.5f, y: 0.5f, z: 0.5f), duration: 2);
+
+        private void SetFindSystem_WrongChoice(GameObject button)
+        {
+            if (button.TryGetComponent<MovePictureScripts>(out movePictureScripts))
+            {
+                movePictureScripts.ButtonEffect();
+            }
+        }
     }
 }
+

@@ -3,28 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ButtonController : MonoBehaviour
+namespace Game
 {
-    [SerializeField] private Image mainSprite;
-    private string indefire;
+    public class ButtonController : MonoBehaviour
+    {
+        [SerializeField] private Image mainSprite;
+        private string indefire;
     
-    public void SetSprite(Sprite sprite)
-    {
-        mainSprite.sprite = sprite;
-    }
+        public void SetSprite(Sprite sprite)
+        {
+            mainSprite.sprite = sprite;
+        }
 
-    public void SetIndefire(string number)
-    {
-        indefire = number;
-    }
+        public void SetIndefire(string number)
+        {
+            indefire = number;
+        }
 
-    public string GetIndefire()
-    {
-        return indefire;
-    }
+        public string GetIndefire()
+        {
+            return indefire;
+        }
 
-    public Image getSprite()
-    {
-        return mainSprite;
+        public Image getSprite()
+        {
+            return mainSprite;
+        }
     }
 }
+

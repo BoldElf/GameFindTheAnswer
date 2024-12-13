@@ -4,26 +4,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using VContainer;
 
-public class RaycastStateController : MonoBehaviour
+namespace Game
 {
-    [Inject] private LevelManager levelManager;
-    [Inject] private RaycastCheck reycastCheck;
-
-    // Start is called before the first frame update
-    void Start()
+    public class RaycastStateController : MonoBehaviour
     {
-        levelManager.LevelStartEvent += LevelStart;
-        levelManager.LevelEndEvent += LevelEnd;
+        [Inject] private LevelManager levelManager;
+        [Inject] private RaycastCheck reycastCheck;
+
+        void Start()
+        {
+            levelManager.LevelStartEvent += LevelStart;
+            levelManager.LevelEndEvent += LevelEnd;
+        }
+
+        private void LevelStart()
+        {
+            reycastCheck.gameObject.SetActive(true);
+        }
+
+        private void LevelEnd()
+        {
+            reycastCheck.gameObject.SetActive(false);
+        }
     }
 
-    private void LevelStart()
-    {
-        reycastCheck.gameObject.SetActive(true);
-    }
-
-    private void LevelEnd()
-    {
-        reycastCheck.gameObject.SetActive(false);
-        Debug.Log("LevelEnd");
-    }
 }

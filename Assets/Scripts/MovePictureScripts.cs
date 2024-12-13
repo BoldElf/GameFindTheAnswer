@@ -3,28 +3,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MovePictureScripts : MonoBehaviour
+namespace Game
 {
-    [SerializeField] private GameObject imageObject;
-    [SerializeField] private GameObject position1;
-    [SerializeField] private Transform position2;
-
-    private Transform startPosition;
-
-    private void Start()
+    public class MovePictureScripts : MonoBehaviour
     {
-        startPosition = gameObject.transform;
-    }
+        [SerializeField] private GameObject imageObject;
+        [SerializeField] private GameObject position1;
+        [SerializeField] private Transform position2;
 
-    public void ButtonEffect()
-    {
-        
-        DOTween.Sequence().
-        Append(imageObject.transform.DOMove(endValue: new Vector3(position1.transform.position.x, transform.position.y, position1.transform.position.z), duration: 0.3f)).SetEase(Ease.InBounce).
-        Append(imageObject.transform.DOMove(endValue: new Vector3(position2.transform.position.x, transform.position.y, position2.transform.position.z), duration: 0.3f)).SetEase(Ease.InBounce).
-        Append(imageObject.transform.DOMove(endValue: new Vector3(startPosition.position.x, startPosition.position.y, startPosition.transform.position.z), duration: 0.3f)).SetEase(Ease.InBounce).
-        SetLink(imageObject).SetEase(Ease.InBounce);
-        
+        private Transform startPosition;
 
+        private void Start()
+        {
+            startPosition = gameObject.transform;
+        }
+
+        public void ButtonEffect()
+        {
+            DOTween.Sequence().
+            Append(imageObject.transform.DOMove(endValue: new Vector3(position1.transform.position.x, transform.position.y, position1.transform.position.z), duration: 0.3f)).SetEase(Ease.InBounce).
+            Append(imageObject.transform.DOMove(endValue: new Vector3(position2.transform.position.x, transform.position.y, position2.transform.position.z), duration: 0.3f)).SetEase(Ease.InBounce).
+            Append(imageObject.transform.DOMove(endValue: new Vector3(startPosition.position.x, startPosition.position.y, startPosition.transform.position.z), duration: 0.3f)).SetEase(Ease.InBounce).
+            SetLink(imageObject).SetEase(Ease.InBounce);
+        }
     }
 }
+

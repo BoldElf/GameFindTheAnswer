@@ -5,43 +5,35 @@ using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
 
-public class BounceEffect : MonoBehaviour
+namespace Game
 {
-    [Inject] Rendering rendering;
-    [Inject] UIText text;
-
-    [SerializeField] private float FadeValue;
-    [SerializeField] private float FadeDuration;
-
-    private Vector3 scale;
-
-    // Start is called before the first frame update
-    void Start()
+    public class BounceEffect : MonoBehaviour
     {
-        rendering.ObjectIsHere += StartBounceEffect;
-    }
+        [Inject] Rendering rendering;
+        [Inject] UIText text;
 
-    private void StartBounceEffect(GameObject buttonObject)
-    {
-        /*
-        scale = gameObject.transform.localScale;
+        [SerializeField] private float FadeValue;
+        [SerializeField] private float FadeDuration;
 
-        DOTween.Sequence().
-        Append(transform.DOScale(endValue: 2.8f, duration: 0.5f)).
-        AppendInterval(0.1f).
-        Append(transform.DOScale(endValue: 2, duration: 0.5f)).
-        AppendInterval(0.1f).
-        Append(transform.DOScale(endValue: scale, duration: 0.5f));
-        */
+        private Vector3 scale;
 
-        scale = buttonObject.transform.localScale;
+        void Start()
+        {
+            rendering.ObjectIsHere += StartBounceEffect;
+        }
 
-        DOTween.Sequence().
-        Append(buttonObject.transform.DOScale(endValue: 2.8f, duration: 0.5f)).
-        AppendInterval(0.1f).
-        Append(buttonObject.transform.DOScale(endValue: 2, duration: 0.5f)).
-        AppendInterval(0.1f).
-        Append(buttonObject.transform.DOScale(endValue: scale, duration: 0.5f)).
-        SetLink(buttonObject);
+        private void StartBounceEffect(GameObject buttonObject)
+        {
+            scale = buttonObject.transform.localScale;
+
+            DOTween.Sequence().
+            Append(buttonObject.transform.DOScale(endValue: 2.8f, duration: 0.5f)).
+            AppendInterval(0.1f).
+            Append(buttonObject.transform.DOScale(endValue: 2, duration: 0.5f)).
+            AppendInterval(0.1f).
+            Append(buttonObject.transform.DOScale(endValue: scale, duration: 0.5f)).
+            SetLink(buttonObject);
+        }
     }
 }
+

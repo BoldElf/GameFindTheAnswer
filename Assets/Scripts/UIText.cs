@@ -4,47 +4,51 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-public class UIText : MonoBehaviour
+namespace Game
 {
-    [SerializeField] private Transform parentPlace;
-    [SerializeField] private GameObject prefabText;
-    [SerializeField] private Text  text;
-    [SerializeField] private GameObject restart;
-
-    public delegate void UiRestrtart();
-    public event UiRestrtart GoRestrart;
-
-    public float FadeValue;
-    public float FadeDuration;
-
-    private GameObject currentText;
-
-    private Tween tween;
-
-    public void setText(string textNumber)
+    public class UIText : MonoBehaviour
     {
-        if(currentText != null)
+        [SerializeField] private Transform parentPlace;
+        [SerializeField] private GameObject prefabText;
+        [SerializeField] private Text  text;
+        [SerializeField] private GameObject restart;
+
+        public delegate void UiRestrtart();
+        public event UiRestrtart GoRestrart;
+
+        public float FadeValue;
+        public float FadeDuration;
+
+        private GameObject currentText;
+
+        private Tween tween;
+
+        public void setText(string textNumber)
         {
-            tween.Kill();
-            Destroy(currentText);
+            if(currentText != null)
+            {
+                tween.Kill();
+                Destroy(currentText);
+            }
+
+            currentText = Instantiate(prefabText, parentPlace.transform);
+
+            if(currentText.TryGetComponent<Text>(out text))
+            {
+                text.text = textNumber;
+                tween = text.DOFade(FadeValue, FadeDuration).SetLink(currentText);
+            }
         }
 
-        currentText = Instantiate(prefabText, parentPlace.transform);
-
-        if(currentText.TryGetComponent<Text>(out text))
+        public void setRestart()
         {
-            text.text = textNumber;
-            tween = text.DOFade(FadeValue, FadeDuration).SetLink(currentText);
+            restart.SetActive(true);
         }
-    }
-
-    public void setRestart()
-    {
-        restart.SetActive(true);
-    }
     
-    public void startRestart()
-    {
-        GoRestrart?.Invoke();
+        public void startRestart()
+        {
+            GoRestrart?.Invoke();
+        }
     }
+
 }

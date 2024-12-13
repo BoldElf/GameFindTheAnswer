@@ -4,38 +4,29 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using VContainer;
 
-public class RaycastCheck : MonoBehaviour
+namespace Game
 {
-    /*
-    public void OnPointerDown(PointerEventData eventData)
+    public class RaycastCheck : MonoBehaviour
     {
-        Debug.Log("Clicked");
-    }
-    */
+        [Inject] private SetFindSystem setFindSystem;
 
-    //RaycastHit2D hit = new RaycastHit2D();
+        private ButtonController button;
 
-    [Inject] private SetFindSystem setFindSystem;
-
-
-    private ButtonController button;
-
-    private void Update()
-    {
-        RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-        if (hit.collider != null)
+        private void Update()
         {
-            //Debug.Log("Target Position: " + hit.collider.gameObject.transform.position);
-            if(Input.GetKeyDown(KeyCode.Mouse0))
+            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+            if (hit.collider != null)
             {
-                //Destroy(hit.collider.gameObject);
-
-                if(hit.collider.TryGetComponent<ButtonController>(out button))
+                if(Input.GetKeyDown(KeyCode.Mouse0))
                 {
-                    setFindSystem.CheckEndNumber(button);
+                    if(hit.collider.TryGetComponent<ButtonController>(out button))
+                    {
+                        setFindSystem.CheckEndNumber(button);
+                    }
                 }
             }
         }
     }
 }
+
 

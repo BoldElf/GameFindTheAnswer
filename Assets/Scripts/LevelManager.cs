@@ -3,66 +3,69 @@ using System.Collections.Generic;
 using UnityEngine;
 using VContainer;
 
-public class LevelManager : MonoBehaviour
+namespace Game
 {
-    [Inject] private UIText uIText;
-    [Inject] private Rendering rendering;
-    [Inject] private SetFindSystem setFindSystem;
-
-    [SerializeField] private List<Level> levels = new List<Level>();
-    [SerializeField] private int currentLevel = 0; // DBG
-
-    public delegate void LevelManagerDelegate();
-    public event LevelManagerDelegate LevelStartEvent;
-
-    public event LevelManagerDelegate LevelEndEvent;
-
-    private void Start()
+    public class LevelManager : MonoBehaviour
     {
-        StartLevel();
-        setFindSystem.Notify += NextLevel;
-        uIText.GoRestrart += Restart;
-    }
+        [Inject] private UIText uIText;
+        [Inject] private Rendering rendering;
+        [Inject] private SetFindSystem setFindSystem;
 
-    private void NextLevel()
-    {
-        if(currentLevel < levels.Count - 1)
+        [SerializeField] private List<Level> levels = new List<Level>();
+        private int currentLevel = 0;
+
+        public delegate void LevelManagerDelegate();
+        public event LevelManagerDelegate LevelStartEvent;
+
+        public event LevelManagerDelegate LevelEndEvent;
+
+        private void Start()
         {
-            rendering.ClearRender(setFindSystem);
-            currentLevel++;
             StartLevel();
-        }
-        else
-        {
-            LevelEndEvent?.Invoke();
-            uIText.setRestart();
+            setFindSystem.Notify += NextLevel;
+            uIText.GoRestrart += Restart;
         }
 
-    }
-
-    private void Restart()
-    {
-        setFindSystem.GlobalClearData();
-        currentLevel = 0;
-        rendering.ClearRender(setFindSystem);
-        StartLevel();
-        Debug.Log("Restart");
-    }
-
-    private void StartLevel()
-    {
-        if (currentLevel < levels.Count)
+        private void NextLevel()
         {
-            if (rendering != null)
+            if(currentLevel < levels.Count - 1)
             {
-                LevelStartEvent?.Invoke();
-                rendering.renderGrid(levels[currentLevel].getCountElements(), setFindSystem);
-                uIText.setText("Find: " + " " + setFindSystem.getEndNumberButton());
+                rendering.ClearRender(setFindSystem);
+                currentLevel++;
+                StartLevel();
             }
             else
             {
-                Debug.Log("Error rendering depend");
+                LevelEndEvent?.Invoke();
+                uIText.setRestart();
+            }
+
+        }
+
+        private void Restart()
+        {
+            setFindSystem.GlobalClearData();
+            currentLevel = 0;
+            rendering.ClearRender(setFindSystem);
+            StartLevel();
+        }
+
+        private void StartLevel()
+        {
+            if (currentLevel < levels.Count)
+            {
+                if (rendering != null)
+                {
+                    LevelStartEvent?.Invoke();
+                    rendering.renderGrid(levels[currentLevel].getCountElements(), setFindSystem);
+                    uIText.setText("Find: " + " " + setFindSystem.getEndNumberButton());
+                }
+                else
+                {
+                    Debug.Log("Error rendering depend");
+                }
             }
         }
     }
 }
+

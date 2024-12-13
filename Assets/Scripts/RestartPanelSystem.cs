@@ -5,89 +5,73 @@ using VContainer;
 using DG.Tweening;
 using UnityEngine.UI;
 
-public class RestartPanelSystem : MonoBehaviour
+namespace Game
 {
-    [Inject] private LevelManager levelManager;
-    [SerializeField] private float FadeValue;
-    [SerializeField] private float FadeDuration;
-
-    [SerializeField] private GameObject blackPanelPrefab;
-    [SerializeField] private GameObject LoadPanel;
-    [SerializeField] private Transform parentObject;
-
-    private GameObject defaultPanelObject;
-    private Image imagePanel;
-
-    private bool blackPanelActive;
-
-    private float time = 100;
-
-    private void Start()
+    public class RestartPanelSystem : MonoBehaviour
     {
-        levelManager.LevelStartEvent += LevelStartPanel;
-        levelManager.LevelEndEvent += LevelEndPanel;
-    }
+        [Inject] private LevelManager levelManager;
+        [SerializeField] private float FadeValue;
+        [SerializeField] private float FadeDuration;
 
-    IEnumerator FadeIn(GameObject panel, float number)
-    {
-        //float i = 0;
+        [SerializeField] private GameObject blackPanelPrefab;
+        [SerializeField] private GameObject LoadPanel;
+        [SerializeField] private Transform parentObject;
 
-        defaultPanelObject = Instantiate(panel, parentObject);
+        [SerializeField] private UIText uiText;
 
-        imagePanel = defaultPanelObject.GetComponent<Image>();
+        private GameObject defaultPanelObject;
+        private Image imagePanel;
 
-        Color color = imagePanel.color;
-
-        while (imagePanel.color.a < number)
+        private void Start()
         {
-            color.a += 10f * Time.deltaTime;
-            imagePanel.color = color;
-            yield return new WaitForSeconds(10f * Time.deltaTime);
+            levelManager.LevelEndEvent += LevelEndPanel;
         }
 
-        blackPanelActive = true;
-    }
-
-    
-    /*
-    IEnumerator FadeOut()
-    {
-
-
-
-    }
-    */
-
-    private void LevelStartPanel()
-    {
-        if(blackPanelActive == true)
+        IEnumerator FadeIn(GameObject panel, float number)
         {
-            StartCoroutine(FadeIn(LoadPanel, 1f));
-            blackPanelActive = false;
-        }
-        
-    }
+            defaultPanelObject = Instantiate(panel, parentObject);
 
-    private void LevelEndPanel()
-    {
-        StartCoroutine(FadeIn(blackPanelPrefab, 0.8f));
-    }
+            imagePanel = defaultPanelObject.GetComponent<Image>();
 
+            Color color = imagePanel.color;
 
-    /*
-    private void LevelEndPanel()
-    {
-        blackPanelObject = Instantiate(blackPanelPrefab,parentObject);
+            while (imagePanel.color.a < number)
+            {
+                color.a += 20f * Time.deltaTime;
+                imagePanel.color = color;
+                yield return new WaitForSeconds(10f * Time.deltaTime);
+            }
+        } 
 
-        if(blackPanelObject.TryGetComponent<Image>(out imagePanel))
+        private void LevelEndPanel()
         {
-            imagePanel.DOFade(FadeValue, FadeDuration).SetLink(blackPanelObject);
+            StartCoroutine(FadeIn(blackPanelPrefab, 0.8f));
         }
-    }
 
-    private void LevelStartPanel()
-    {
-        
+        public void ClearPanel()
+        {
+            StartCoroutine(FadeOut());
+        }
+
+        public void RestartPanel()
+        {
+            StartCoroutine(FadeIn(LoadPanel,1f));
+        }
+
+        IEnumerator FadeOut()
+        {
+            imagePanel = defaultPanelObject.GetComponent<Image>();
+
+            Color color = imagePanel.color;
+
+            while (imagePanel.color.a > 0f)
+            {
+                color.a -= 10f * Time.deltaTime;
+                imagePanel.color = color;
+                yield return new WaitForSeconds(10f * Time.deltaTime);
+            }
+        }
+
     }
-    */
 }
+
