@@ -16,12 +16,19 @@ namespace Game
         public delegate void UiRestrtart();
         public event UiRestrtart GoRestrart;
 
+        public event UiRestrtart GoLoadPanel;
+        public event UiRestrtart GoClosePanel;
+
         public float FadeValue;
         public float FadeDuration;
 
         private GameObject currentText;
 
         private Tween tween;
+
+        private bool startTimer;
+        private float timer;
+        private bool loadPanel = false;
 
         public void setText(string textNumber)
         {
@@ -47,7 +54,35 @@ namespace Game
     
         public void startRestart()
         {
-            GoRestrart?.Invoke();
+            startTimer = true;
+            loadPanel = true;
+        }
+
+        private void Update()
+        {
+            LoadPanelSettings();
+        }
+
+        private void LoadPanelSettings()
+        {
+            if (startTimer == true)
+            {
+                if (loadPanel == true)
+                {
+                    GoLoadPanel?.Invoke();
+                    loadPanel = false;
+                }
+
+                timer += Time.deltaTime;
+
+                if (timer > 1)
+                {
+                    GoClosePanel?.Invoke();
+                    GoRestrart?.Invoke();
+                    startTimer = false;
+                    timer = 0;
+                }
+            }
         }
     }
 
